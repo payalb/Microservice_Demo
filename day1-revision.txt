@@ -1,0 +1,94 @@
+Microservices?
+
+1) Loosely coupled
+2) If 1 service goes down, still other services are working
+3) Scalable:
+	a) X axis:Splitting the functionality
+	b) Y axis: We can run more than 1 instance for a 
+			particular service
+	c) z axis: Each service has it's own database
+4) Development/enhancement/debugging is easier
+5) Any technology stack (java/ .net/ c/c++, mongodb,
+ relational db)
+6) Reusability
+7) Each service can be tested thoroughly
+8) Modularity (functionality/ domain objects)
+ted dream list 
+Limitations:
+1) Deployment is challenging, infrastructure cost would increase
+=> eureka server
+=> config server 
+2) Integration testing is a challenge
+3) Troubleshooting is a challenge
+4) Transactions across services is tough. Eventual consistency
+(Mail has been sent -> Another mail being sent for saying ignore
+ previos mail)
+ttid
+
+Q2) How would u debug ur application in production env?
+Zipkin/Sleuth: (sleuth: adds extra info to logs : application id, span id, trace id) zipkin: collect ur logs and show a gui
+: Total time taken
+: request & response objects
+: failed /passed (red/green)
+Actuator: health of our service
+Log4j: logging
+
+Q3) Why do u use eureka server?
+A) Registration and discovery server
+	=> no need to hardcode the urls when u r using resttemplate
+
+Q4) Why do we use api-gateway design pattern?
+Gateway to all the requests:
+	1) security (not sharing the url's for all services wit client)
+	2) Filter ur request (authentication/ authorization)
+	3) All the non-business code can be part of this api-gateway (tx , logging, ...)
+
+Q5) Which technologies u used for ur micorservice based app?
+a) Docker: creating images (bundle of app/ env+ env variables)
+We can run image direclty from any env
+No other set-up is needed
+b) spring cloud libraries
+	zuul: api-gateway
+	feign: load balancer (client)
+	
+A (client)-> Eureka server (will figure out which instance it should send the request to)
+
+	eureka server
+	sleuth/zipkin
+	hystrix: fallback methods
+	config server
+c) JMS (activemq): asynchronous communication between services
+, makes them loosely coupled
+d) AMQP: rabbitmq (advanced messaging protocol: conditional routing: can handle millions of messages.
+exchange: brain (computing))
+There is no loss of message (durable)?
+1) Consumer processes message successfully, then only it will send the acknowledgemnt. Once ack is received, then only message is removed from ur queue
+2) Producer ack: Producer sends a message to ur broker, broker also sends an ack.
+3) Ur messages are being stored in db broker has it's own db)
+
+This also leads to duplicate messages
+e)  Spring boot
+	1) data jpa: automatic code for repositories
+	2) embedded server: executable jar file (java -jar)
+		spring-boot-maven-plugin
+	3) actuator
+	4) dependencies (starter dependencies) (starter-web: logging, jackson, web, )
+	5) auto-configuration: web: dispatcher servlet
+				data jpa: datasource, 				entitymanagerfactory
+	@SpringBootApplication
+		@EnableAutoConfiguration
+		@ComponentScan
+		@Configuration
+	6) dependency injection: loosely coupled
+	7) no config/minial config: application.properties
+
+f) aws:
+	1) ec2: deploy our docker image
+	2) rds: relational database
+	3) s3: file storage service
+	4) ses/ sqs/sns
+	
+g) version control: git
+h) CI/CD: jenkins
+i) spring data rest/ spring data jpa
+j) hibernate
