@@ -1,0 +1,62 @@
+Q1) 
+What is REST?
+
+1) Representational state transfer? Content negotiation
+
+Client -> accept 
+Server: MediaType/ Content_type
+
+Rules?
+1) Uniform interface: 
+2) Stateless: upscaling : http protocol (stateless)
+3) Loose coupling? xml/ json (messages)
+4) Richardson maturity model? 
+	Level2: url has ot be in form of resources, noun, no action information as part of url: proper http methods
+Level3: Hateos: stateless, 
+5) loose coupling between layers 
+6) Proper status codes as a response
+7) exception handling : @ExceptionHandler(Exception.class)
+
+Libraries: spring framework (web)
+jax-rs: api: develop application that use Rest architecture
+	-> Jersey (official implementation)
+	-> restlet
+	-> resteasy
+
+Testing ur rest application?
+	postman
+	unit testing: spring-testing : 
+	
+unit testing:
+	-> junit
+	-> TestRestTemplate
+	-> 
+
+-> Unit testing: Testing each functionality thoroughly with each set of possible input and expected output
+-> Controller class, 	Service class, 	Database class
+
+service
+Mock object: DB db;
+{
+Student st=db.getStudentById(1);: Student st= new Student(1, "payal")
+logging.
+
+}-> Integration Testing
+one monolithic appl
+controlelr -> service -> database -> response
+
+
+Microservices
+
+Q) how were u handling json data in ur app?
+Spring boot: jackson-databind.xml
+Marshalling: java -> json
+Unmarshalling -> json: java
+
+xml: jackson-dataformat.xml
+
+How are doing documentation for restful?
+swagger 2
+
+
+
