@@ -1,0 +1,180 @@
+Q) Why did u use Spring, Modules of spring have u worked upon?
+
+A) Framework
+	-> Dependency Injection: Spring create beans and injecting the dependencies at runtime.
+		-> Constructor
+		-> Setter injection
+		Loose coupling (Changes in one layer does not affect the other)
+	-> Modules which help us integrate with outher libraries/ framework
+	(Spring ORM : provides us ease in integrating with jpa frameworks, JMSTemplate, RestTemplate, HibernateTemplate : manage the connection/session/tx, so we don't have to worry about it)
+	-> Spring has given us container in the form of library: it is lightweight and embedded in libraries, so no external dependency
+	-> We can configure lot of objects as beans, so spring can manage the lifecycle, we can also specify the scopes for these beans
+		a) singleton (default)/ singleton design pattern: We can have multiple objects of same class when the scope is singleton
+
+
+class A{
+
+
+
+}
+
+<bean class="com.java.A" id="a1"/>
+<bean class="com.java.A" id="a2"/>
+ctx.getBean("a1"): 100 times, it will still give me the same object
+
+	-> Spring supports Modularity, so in our application, we can use any module of spring without having to use all.
+	-> solution for Has-a
+
+class Person{
+	String name;
+	Address address;//Association
+}
+	
+class Employee extends Person{} //Inheritance
+
+Q) What are the spring containers u have used in ur app?
+A) BeanFactory: core
+b) ApplicationContext: core
+c) WebApplicationContext: web 
+
+Q) Wht is the work of a container?
+A) Manage the lifecycle of the bean
+2) Dependency injection
+3) Dnamic parameter passing
+@Value / <property>
+
+Q) How do u start/stop the spring container?
+A) By instantiating these interfaces (BeanFactory, ApplicationContext..)
+AbstractApplicationContext: registerShutdownHook
+
+	public static void main(String[] args) {
+			
+		AbstractApplicationContext ctx= new ClassPathXmlApplicationContext("spring-config.xml");
+		ctx.registerShutdownHook();
+		//destroy all bean objects, shutdown the container gracefully
+	}
+
+WebContainer: Whenever u give control to DispatcherServlet, it will internally start your web container
+
+Java config:
+
+AbstractApplicationContext ctx= new AnnotationConfigApplicationContext(JavaConfig.class);
+//stereotype: @Service, @Repository, @Component, @Controller: T tell spring, to create the object fro this class
+@Component
+Q) class A{
+//@Autowired
+@Qualifier("b1")
+B b;
+A(B b){
+this.b= b;
+}
+@Component("b")
+class B{
+
+
+}
+<bean id="b1" class="com.java.B">
+//NoUniqueBean..Exception
+//Constructor Injection
+
+
+<web.xml>
+
+<servlet>
+
+Root container: ApplicationContext: application.xml
+<contextParam>: ContextLoaderListener
+contextConfigLocation: spring.xml: @ComponentScan
+child container: WebApplicationContext : servletName-servlet.xml :DispatcherServlet /
+Datasource
+
+Beans in child container can access beans in root container but not vice-versa
+Q)BeanFactory | Application Context
+A) 
+
+
+
+Q) Diff ebtween ContextLoaderListener| DispatcherServlet?
+
+
+
+<servlet>
+<servlet-name>spring</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<init-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>/WEB-INF/spring.xml</param-value>
+</servlet>
+
+spring-servlet.xml
+
+spring.xml: root/ child
+
+Modules: config file (separate)
+
+Q) What is the spring bean lifecycle
+Constructor is called
+setter method
+postprocessor: postprocessbeforeInitialization
+@PostConstruct
+InitializingBean: afterPropertySet
+init-method
+postprocessor: postProcessAfterInitialization
+finalize()
+destroy-method
+ DisposableBean.destroy()
+@PreDestroy
+
+Q ) diff between application context/ beanFactory
+A) 1) BeanFactory: lazy initialization
+ctx.getBean(): create ur bean
+
+ApplicationContext: eager initialization: singleton scope: bean created at start-up of spring container
+prototype: lazy 
+
+2) BeanPostProcessor: applicationContext
+	a) AutowiredAnnotationBeanPostProcessor
+	b_ RequiredAnnotationBeanPostProcessor
+3) Internationalization: applicationContext 
+Website: english/french/chinese
+
+
+class EmployeeService{
+
+EmployeeRepository rep;
+@Required
+public void setEmployeeRepository( EmployeeRepository  rep){
+this.rep= rep;
+}
+
+}
+
+<bean class="com.java.EmployeeService" id="srvc"/>
+
+
+class DBUtil{
+
+	public static SessionFactory getSessionFactory(){
+
+	}	
+
+
+}
+
+<bean class="com.java.DBUtil" factory-method="getSessionFactory" id="sf">//constructor
+
+@Bean
+public SessionFactory getSF(){
+return DBUtil.getSessionFactory();
+}
+
+Factory method: returning  objects.
+Instead of using constructor, we use factory method to return the object
+	--> Singleton: static 
+	--> non-static: 
+
+SessionFactory sf= cfg.buildSessionFactory();
+Session s=sf.openSession(); //non-static factory method
+
+
+	
